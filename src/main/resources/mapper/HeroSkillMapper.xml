@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peanut.Equipment.mapper.HeroSkillMapper">
+
+    <resultMap id="BaseResultMap" type="com.peanut.Equipment.domain.entity.HeroSkill">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="imgFileId" column="img_file_id" jdbcType="INTEGER"/>
+            <result property="heroId" column="hero_id" jdbcType="INTEGER"/>
+            <result property="version" column="version" jdbcType="INTEGER"/>
+            <result property="deleteFlag" column="delete_flag" jdbcType="BIGINT"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,img_file_id,
+        hero_id,version,delete_flag,
+        create_time,update_time
+    </sql>
+</mapper>
