@@ -18,6 +18,9 @@ public class Equipment {
     @Resource
     private EquipmentService equipmentService;
 
+    /*
+    * 添加装备
+    * */
     @Test
     public void test() {
         String path = "E:\\java\\test_img";
