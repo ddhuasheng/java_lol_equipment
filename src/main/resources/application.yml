@@ -15,3 +15,4 @@ spring:
       max-request-size: 100MB
 file:
   dir: "E:\\java\\uploads\\"
+  nginx-dir: "D:\\nginx-1.20.2\\html\\lol_equipment\\uploads"

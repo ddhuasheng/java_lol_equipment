@@ -32,6 +32,9 @@ public class FileUploadServiceImpl extends ServiceImpl<FileUploadMapper, FileUpl
     @Value("${file.dir}")
     private String fileDir;
 
+    @Value("${file.nginx-dir}")
+    private String nginxDir;
+
     @Override
     public Long upload(MultipartFile file) {
         String originalFileName = file.getOriginalFilename();
@@ -72,6 +75,28 @@ public class FileUploadServiceImpl extends ServiceImpl<FileUploadMapper, FileUpl
         fileUpload.setName(name);
         save(fileUpload);
         return fileUpload.getId();
+    }
+
+    @Override
+    public String upload1(MultipartFile file) {
+        String originalFileName = file.getOriginalFilename();
+        String mainName = FileUtil.mainName(originalFileName);
+        String extName = FileUtil.extName(originalFileName);
+        String fileName = mainName + "_" + UUID.randomUUID() + "." + extName;
+        String absolutePath = nginxDir + fileName;
+
+        try {
+            FileUtil.writeBytes(file.getBytes(), absolutePath);
+        } catch (IOException e) {
+            log.error("文件上传失败upload1: {}", e.getMessage());
+            throw BizException.of("文件上传失败");
+        }
+        FileUpload fileUpload = new FileUpload();
+        fileUpload.setPath(absolutePath);
+        fileUpload.setName(originalFileName);
+        save(fileUpload);
+
+        return "http://127.0.0.1:8001\\lol_equipment\\uploads" + fileName;
     }
 
     @Override
