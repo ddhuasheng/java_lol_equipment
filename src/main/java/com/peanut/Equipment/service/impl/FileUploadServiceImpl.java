@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.UUID;
 
 /**
@@ -86,10 +87,10 @@ public class FileUploadServiceImpl extends ServiceImpl<FileUploadMapper, FileUpl
         // 把文件输出到响应流
         response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
         // 返回文件名
-        response.setHeader("Content-Disposition", "attachment;filename=" + fileUpload.getName());
+        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileUpload.getName()));
         // 获取输出流
         try(
-                ServletOutputStream outputStream = response.getOutputStream();
+                ServletOutputStream outputStream = response.getOutputStream()
                 ) {
             // 写入文件字节
             outputStream.write(FileUtil.readBytes(file));
