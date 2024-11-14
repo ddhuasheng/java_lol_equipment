@@ -23,7 +23,7 @@ public class Equipment {
     * */
     @Test
     public void test() {
-        String path = "E:\\java\\test_img";
+        String path = "E:\\java\\test_img\\Equipment";
         File file = FileUtil.file(path);
         try {
             for (File listFile : Objects.requireNonNull(file.listFiles())) {
