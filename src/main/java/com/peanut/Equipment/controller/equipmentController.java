@@ -10,6 +10,7 @@ import com.peanut.Equipment.service.EquipmentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,21 +24,21 @@ public class equipmentController {
 
 	@GetMapping("/page")
 	@Operation(summary = "装备信息分页")
-	public ResultVO<BasePageVO<EquipmentPageVO>> page(@RequestParam EquipmentPageDTO equipmentPageDTO) {
+	public ResultVO<BasePageVO<EquipmentPageVO>> page(EquipmentPageDTO equipmentPageDTO) {
 		BasePageVO<EquipmentPageVO> page = equipmentService.bizPage(equipmentPageDTO);
 		return ResultVO.success(page);
 	}
 
 	@PostMapping
 	@Operation(summary = "新增装备信息")
-	public ResultVO<Boolean> create(@RequestBody EquipmentDTO equipmentDTO) {
+	public ResultVO<Boolean> create(@Valid @RequestBody EquipmentDTO equipmentDTO) {
 		boolean result = equipmentService.save(equipmentDTO);
 		return ResultVO.success(result);
 	}
 
 	@PutMapping
 	@Operation(summary = "更新装备信息")
-	public ResultVO<Boolean> update(@RequestBody EquipmentDTO equipmentDTO) {
+	public ResultVO<Boolean> update(@Valid @RequestBody EquipmentDTO equipmentDTO) {
 		boolean result = equipmentService.updateById(equipmentDTO);
 		return ResultVO.success(result);
 	}

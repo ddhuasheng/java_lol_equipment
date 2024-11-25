@@ -9,8 +9,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.function.Function;
 
-@Schema(description = "BasePageV0")
 @Data
+@Schema(description = "BasePageV0")
 public class BasePageVO<T> implements Serializable {
 	@Schema(description = "页面大小")
 	private Long pageSize = 10L;
