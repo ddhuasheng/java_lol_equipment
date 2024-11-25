@@ -1,2 +1,6 @@
 # java学习项目
-springboot+mybaits-plus
+## 技术栈
+- springboot
+- mybatis-plus
+- redis
+- minio

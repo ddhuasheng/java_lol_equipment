@@ -21,9 +21,12 @@ public class BasePageVO<T> implements Serializable {
 	@Schema(description = "总条数")
 	private Long total;
 
-	/*
-	* vo类转换
-	* */
+	/**
+		* vo类型转换
+	 	* @param page source 源类型
+	 	* @param function 转换函数
+	 	* @return T
+		* */
 	public static <T, E> BasePageVO<T> convert(Page<E> page, Function<E, T> function) {
 		List<E> records1 = page.getRecords();
 		BasePageVO<T> tBasePageVO = new BasePageVO<>();

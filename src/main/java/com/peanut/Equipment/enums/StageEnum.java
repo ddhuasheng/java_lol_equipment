@@ -1,6 +1,7 @@
 package com.peanut.Equipment.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 
 /**

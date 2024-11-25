@@ -4,7 +4,6 @@ import cn.hutool.core.bean.BeanUtil;
 import com.peanut.Equipment.domain.dto.EquipmentDTO;
 import com.peanut.Equipment.domain.dto.EquipmentPageDTO;
 import com.peanut.Equipment.domain.entity.Equipment;
-import com.peanut.Equipment.domain.entity.Hero;
 import com.peanut.Equipment.domain.vo.*;
 import com.peanut.Equipment.service.EquipmentService;
 import io.swagger.v3.oas.annotations.Operation;

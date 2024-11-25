@@ -4,8 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 
-@Schema(description = "英雄分页VO - HeroPageVO")
 @Data
+@Schema(description = "英雄分页VO - HeroPageVO")
 public class HeroPageVO extends BaseVO {
 	/*
 	* 英雄名

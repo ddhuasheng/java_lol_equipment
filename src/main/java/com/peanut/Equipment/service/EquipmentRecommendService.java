@@ -1,7 +1,10 @@
 package com.peanut.Equipment.service;
 
+import com.peanut.Equipment.domain.dto.EquipmentRecommendPageDTO;
 import com.peanut.Equipment.domain.entity.EquipmentRecommend;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.peanut.Equipment.domain.vo.BasePageVO;
+import com.peanut.Equipment.domain.vo.EquipmentRecommendPageVO;
 
 /**
 * @author 86139
@@ -10,4 +13,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface EquipmentRecommendService extends IService<EquipmentRecommend> {
 
+	/*
+	* 推荐装备分页
+	* */
+	BasePageVO<EquipmentRecommendPageVO> bizPage(EquipmentRecommendPageDTO equipmentRecommendPageDTO);
 }
