@@ -1,7 +1,6 @@
 package com.peanut.equipment;
 
 import cn.hutool.core.io.FileUtil;
-import com.peanut.Equipment.domain.entity.FileUpload;
 import com.peanut.Equipment.domain.entity.Hero;
 import com.peanut.Equipment.domain.entity.HeroSkill;
 import com.peanut.Equipment.service.FileUploadService;

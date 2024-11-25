@@ -13,6 +13,37 @@ spring:
       enabled: true
       max-file-size: 100MB
       max-request-size: 100MB
+  #  关闭默认的静态资源路径映射
+#  web:
+#    resources:
+#      add-mappings: false
+  data:
+    redis:
+      host: 192.168.98.128
+      port: 6379
+      database: 0
 file:
   dir: "E:\\java\\uploads\\"
   nginx-dir: "D:\\nginx-1.20.2\\html\\lol_equipment\\uploads"
+springdoc:
+  default-flat-param-object: true
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: com.peanut.Equipment
+knife4j:
+  enable: true
+  setting:
+    # 开启动态请求参数，true-开启，false-关闭
+    enable-dynamic-parameter: true
+    enable-swagger-models: true
+# 开启sql展示
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
