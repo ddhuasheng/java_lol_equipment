@@ -2,21 +2,25 @@ package com.peanut.Equipment.service.impl;
 
 import cn.hutool.core.io.FileUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.peanut.Equipment.common.MinioUtil;
 import com.peanut.Equipment.domain.entity.FileUpload;
+import com.peanut.Equipment.enums.BizCodeEnum;
 import com.peanut.Equipment.exception.BizException;
 import com.peanut.Equipment.service.FileUploadService;
 import com.peanut.Equipment.mapper.FileUploadMapper;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URLEncoder;
+import java.nio.file.Files;
 import java.util.UUID;
 
 /**
@@ -29,35 +33,23 @@ import java.util.UUID;
 public class FileUploadServiceImpl extends ServiceImpl<FileUploadMapper, FileUpload>
     implements FileUploadService {
 
-    @Value("${file.dir}")
-    private String fileDir;
-
-    @Value("${file.nginx-dir}")
-    private String nginxDir;
-
     @Override
-    public Long upload(MultipartFile file) {
+    public FileUpload upload(MultipartFile file) {
         String originalFileName = file.getOriginalFilename();
         String mainName = FileUtil.mainName(originalFileName);
         String extName = FileUtil.extName(originalFileName);
 
         String fileName = mainName + "_" + UUID.randomUUID() + "." + extName;
-        String absolutePath = fileDir + fileName;
 
-        try {
-            FileUtil.writeBytes(file.getBytes(), absolutePath);
-        } catch (IOException e) {
-            log.error("文件上传失败: {}", e.getMessage());
-            throw BizException.of("文件上传失败");
-        }
+        MinioUtil.upload(file, fileName, file.getContentType());
 
         FileUpload fileUpload = new FileUpload();
         fileUpload.setName(originalFileName);
-        fileUpload.setPath(absolutePath);
+        fileUpload.setFilename(fileName);
 
         save(fileUpload);
 
-        return fileUpload.getId();
+        return fileUpload;
     }
 
     @Override
@@ -65,13 +57,20 @@ public class FileUploadServiceImpl extends ServiceImpl<FileUploadMapper, FileUpl
         String name = file.getName();
         String mainName = FileUtil.mainName(name);
         String extName = FileUtil.extName(name);
+        String filename = mainName + '_' + UUID.randomUUID() + "." + extName;
+        try {
+            String type = Files.probeContentType(file.toPath());
+            BufferedInputStream inputStream = FileUtil.getInputStream(file);
+            long size = FileUtil.size(file);
 
-        String fileName = mainName + "_" + UUID.randomUUID() + "." + extName;
-        String absolutePath = fileDir + fileName;
+            MinioUtil.uploadFile(inputStream, size, filename, type);
+        } catch (IOException e) {
+            log.error("获取文件类型出错: {}", e.getMessage());
+            throw BizException.of("获取文件类型出错");
+        }
 
-        FileUtil.writeBytes(FileUtil.readBytes(file), absolutePath);
         FileUpload fileUpload = new FileUpload();
-        fileUpload.setPath(absolutePath);
+        fileUpload.setFilename(filename);
         fileUpload.setName(name);
         save(fileUpload);
         return fileUpload.getId();
@@ -79,24 +78,7 @@ public class FileUploadServiceImpl extends ServiceImpl<FileUploadMapper, FileUpl
 
     @Override
     public String upload1(MultipartFile file) {
-        String originalFileName = file.getOriginalFilename();
-        String mainName = FileUtil.mainName(originalFileName);
-        String extName = FileUtil.extName(originalFileName);
-        String fileName = mainName + "_" + UUID.randomUUID() + "." + extName;
-        String absolutePath = nginxDir + fileName;
-
-        try {
-            FileUtil.writeBytes(file.getBytes(), absolutePath);
-        } catch (IOException e) {
-            log.error("文件上传失败upload1: {}", e.getMessage());
-            throw BizException.of("文件上传失败");
-        }
-        FileUpload fileUpload = new FileUpload();
-        fileUpload.setPath(absolutePath);
-        fileUpload.setName(originalFileName);
-        save(fileUpload);
-
-        return "http://127.0.0.1:8001\\lol_equipment\\uploads" + fileName;
+        return MinioUtil.getPreviewPath(upload(file).getFilename());
     }
 
     @Override
@@ -107,22 +89,33 @@ public class FileUploadServiceImpl extends ServiceImpl<FileUploadMapper, FileUpl
             throw BizException.of("文件不存在");
         }
 
-        File file = FileUtil.file(fileUpload.getPath());
-
         // 把文件输出到响应流
         response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
         // 返回文件名
         response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileUpload.getName()));
         // 获取输出流
-        try(
-                ServletOutputStream outputStream = response.getOutputStream()
-                ) {
+        try {
+            InputStream inputStream = MinioUtil.download(fileUpload.getFilename());
+
+            ServletOutputStream outputStream = response.getOutputStream();
             // 写入文件字节
-            outputStream.write(FileUtil.readBytes(file));
+            outputStream.write(inputStream.readAllBytes());
         } catch (IOException e) {
             throw BizException.of("文件下载失败");
         }
 
+    }
+
+    @Override
+    public void remove(Long id) {
+        FileUpload fileUpload = getById(id);
+        if (fileUpload == null) {
+            log.error("文件不存在: {}", id);
+            throw BizException.of(BizCodeEnum.BAD_REQUEST,"文件不存在");
+        }
+
+        MinioUtil.remove(fileUpload.getFilename());
+        removeById(id);
     }
 
 

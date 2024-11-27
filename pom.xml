@@ -16,6 +16,7 @@
         <mysql-connector.version>8.0.33</mysql-connector.version>
         <mybaits.plus.starter.version>3.5.7</mybaits.plus.starter.version>
         <knife4j.openapi3.jakarta.starter.version>4.4.0</knife4j.openapi3.jakarta.starter.version>
+        <minio.version>8.5.3</minio.version>
     </properties>
 
 
@@ -107,6 +108,14 @@
             <groupId>com.github.whvcse</groupId>
             <artifactId>easy-captcha</artifactId>
             <version>1.6.2</version>
+        </dependency>
+
+        <!--对象存储，用于存储图像等非结构化数据-->
+        <!--官方文档：https://min.io/docs/minio/linux/developers/minio-drivers.html?ref=docs#java-sdk -->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>${minio.version}</version>
         </dependency>
 
     </dependencies>

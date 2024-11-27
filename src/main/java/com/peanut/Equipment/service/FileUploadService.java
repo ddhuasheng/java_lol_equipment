@@ -16,7 +16,7 @@ public interface FileUploadService extends IService<FileUpload> {
   /*
    * 文件上传返回文件id
    * */
-  Long upload(MultipartFile file);
+  FileUpload upload(MultipartFile file);
 
   /*
    * 文件上传测试类
@@ -33,5 +33,8 @@ public interface FileUploadService extends IService<FileUpload> {
    * */
   void download(Long fileId, HttpServletResponse response);
 
-
+  /*
+   * 文件删除
+   * */
+  void remove(Long id);
 }

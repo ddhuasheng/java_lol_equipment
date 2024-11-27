@@ -16,12 +16,12 @@ public class FileUpload extends BaseEntity {
     /**
      * 文件名
      */
-    @Schema(description = "文件名称")
+    @Schema(description = "文件原名称")
     private String name;
 
     /**
      * 文件路径
      */
-    @Schema(description = "文件路径")
-    private String path;
+    @Schema(description = "文件唯一名称")
+    private String filename;
 }

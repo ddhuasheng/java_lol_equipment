@@ -51,12 +51,13 @@ public class EquipmentTest {
 	public void test2() {
 		String path = "E:\\java\\test_img\\Equipment";
 		File file = FileUtil.file(path);
-		ArrayList<com.peanut.Equipment.domain.entity.Equipment> equipmentList = new ArrayList<>();
+		ArrayList<Equipment> equipmentList = new ArrayList<>();
 		try {
 			for (File listFile : Objects.requireNonNull(file.listFiles())) {
 				String mainName = FileUtil.mainName(listFile.getName());
 				Long fileId = fileUploadService.upload(listFile);
-				com.peanut.Equipment.domain.entity.Equipment equipment = new com.peanut.Equipment.domain.entity.Equipment();
+
+				Equipment equipment = new Equipment();
 				equipment.setName(mainName);
 				equipment.setImgFileId(fileId);
 				equipmentList.add(equipment);

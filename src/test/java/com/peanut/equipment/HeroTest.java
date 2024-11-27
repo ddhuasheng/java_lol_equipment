@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Objects;
 
 @SpringBootTest
@@ -33,6 +34,7 @@ public class HeroTest {
 
 		for(File file : Objects.requireNonNull(fileDir.listFiles())) {
 			Hero hero = new Hero();
+			ArrayList<HeroSkill> heroSkills = new ArrayList<>();
 			for(File file1 : Objects.requireNonNull(file.listFiles())) {
 				if (file1.isFile()) {
 					Long heroImgId = fileUploadService.upload(file1);
@@ -50,10 +52,12 @@ public class HeroTest {
 						heroSkill.setImgFileId(skillImgId);
 						heroSkill.setHeroId(hero.getId());
 						heroSkill.setName(FileUtil.mainName(file2.getName()));
-						heroSkillService.save(heroSkill);
+						heroSkills.add(heroSkill);
 					}
 				}
 			}
+
+			heroSkillService.saveBatch(heroSkills, 8);
 		}
 	}
 }
