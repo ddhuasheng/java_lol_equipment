@@ -8,6 +8,7 @@ import com.peanut.Equipment.enums.BizCodeEnum;
 import com.peanut.Equipment.exception.BizException;
 import com.peanut.Equipment.service.FileUploadService;
 import com.peanut.Equipment.mapper.FileUploadMapper;
+import jakarta.annotation.Resource;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,9 @@ import java.util.UUID;
 public class FileUploadServiceImpl extends ServiceImpl<FileUploadMapper, FileUpload>
     implements FileUploadService {
 
+    @Resource
+    private MinioUtil minioUtil;
+
     @Override
     public FileUpload upload(MultipartFile file) {
         String originalFileName = file.getOriginalFilename();
@@ -41,7 +45,7 @@ public class FileUploadServiceImpl extends ServiceImpl<FileUploadMapper, FileUpl
 
         String fileName = mainName + "_" + UUID.randomUUID() + "." + extName;
 
-        MinioUtil.upload(file, fileName, file.getContentType());
+        minioUtil.upload(file, fileName, file.getContentType());
 
         FileUpload fileUpload = new FileUpload();
         fileUpload.setName(originalFileName);
@@ -63,7 +67,7 @@ public class FileUploadServiceImpl extends ServiceImpl<FileUploadMapper, FileUpl
             BufferedInputStream inputStream = FileUtil.getInputStream(file);
             long size = FileUtil.size(file);
 
-            MinioUtil.uploadFile(inputStream, size, filename, type);
+            minioUtil.uploadFile(inputStream, size, filename, type);
         } catch (IOException e) {
             log.error("获取文件类型出错: {}", e.getMessage());
             throw BizException.of("获取文件类型出错");
@@ -78,7 +82,7 @@ public class FileUploadServiceImpl extends ServiceImpl<FileUploadMapper, FileUpl
 
     @Override
     public String upload1(MultipartFile file) {
-        return MinioUtil.getPreviewPath(upload(file).getFilename());
+        return minioUtil.getPreviewPath(upload(file).getFilename());
     }
 
     @Override
@@ -95,7 +99,7 @@ public class FileUploadServiceImpl extends ServiceImpl<FileUploadMapper, FileUpl
         response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileUpload.getName()));
         // 获取输出流
         try {
-            InputStream inputStream = MinioUtil.download(fileUpload.getFilename());
+            InputStream inputStream = minioUtil.download(fileUpload.getFilename());
 
             ServletOutputStream outputStream = response.getOutputStream();
             // 写入文件字节
@@ -114,7 +118,7 @@ public class FileUploadServiceImpl extends ServiceImpl<FileUploadMapper, FileUpl
             throw BizException.of(BizCodeEnum.BAD_REQUEST,"文件不存在");
         }
 
-        MinioUtil.remove(fileUpload.getFilename());
+        minioUtil.remove(fileUpload.getFilename());
         removeById(id);
     }
 

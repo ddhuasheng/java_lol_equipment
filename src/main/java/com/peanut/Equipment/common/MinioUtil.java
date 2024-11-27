@@ -4,6 +4,7 @@ package com.peanut.Equipment.common;
 import cn.hutool.extra.spring.SpringUtil;
 import com.peanut.Equipment.exception.BizException;
 import io.minio.*;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -17,8 +18,8 @@ import java.util.Optional;
 @Component
 @EnableConfigurationProperties({MinioProperties.class})
 public class MinioUtil {
-	private final static MinioProperties minioProperties = (MinioProperties) Optional.ofNullable(SpringUtil.getBean("minioProperties")).get();
-
+	@Resource
+	private MinioProperties minioProperties;
 
 	/**
 	 * 文件上传 MultipartFile方式
@@ -27,7 +28,7 @@ public class MinioUtil {
 	 * @param filename    文件唯一名称
 	 * @param contentType 文件类型
 	 */
-	public static void upload(MultipartFile file, String filename, String contentType) {
+	public void upload(MultipartFile file, String filename, String contentType) {
 		try {
 			MinioClient client = getClient();
 			client.putObject(
@@ -53,7 +54,7 @@ public class MinioUtil {
 	 * @param filename    文件唯一名称
 	 * @param contentType 文件类型
 	 */
-	public static void uploadFile(InputStream inputStream, long size, String filename, String contentType) {
+	public void uploadFile(InputStream inputStream, long size, String filename, String contentType) {
 		MinioClient client = getClient();
 		try {
 			PutObjectArgs putObjectArgs = PutObjectArgs
@@ -76,7 +77,7 @@ public class MinioUtil {
 	 * @param filename 文件唯一名称
 	 * @return String 文件预览路径
 	 */
-	public static String getPreviewPath(String filename) {
+	public String getPreviewPath(String filename) {
 		MinioClient client = getClient();
 		try {
 			return client.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder().bucket(minioProperties.getBucketName().trim()).object(filename).build());
@@ -92,7 +93,7 @@ public class MinioUtil {
 	 * @param filename 文件唯一名称
 	 * @return InputStream 文件输入流
 	 */
-	public static InputStream download(String filename) {
+	public InputStream download(String filename) {
 		MinioClient client = getClient();
 		try {
 			return client.getObject(GetObjectArgs.builder().bucket(minioProperties.getBucketName().trim()).object(filename).build());
@@ -106,7 +107,7 @@ public class MinioUtil {
 	 * 文件删除
 	 * @param filename 文件唯一名称
 	 * */
-	public static void remove(String filename) {
+	public void remove(String filename) {
 		MinioClient client = getClient();
 		try {
 			client.removeObject(RemoveObjectArgs.builder().object(filename).build());
@@ -121,7 +122,7 @@ public class MinioUtil {
 	 *
 	 * @return MinioClient minio连接客户端
 	 */
-	private static MinioClient getClient() {
+	private MinioClient getClient() {
 		String bucketName = minioProperties.getBucketName().trim();
 		MinioClient minioClient = MinioClient.builder().endpoint(minioProperties.getEndpoint()).credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey()).build();
 
@@ -145,7 +146,7 @@ public class MinioUtil {
 	/*
 	 * 设置桶权限
 	 * */
-	private static String createBucketPolicyConfig(String bucketName) {
+	private String createBucketPolicyConfig(String bucketName) {
 		return """
 				{
 				  "Statement" : [ {
