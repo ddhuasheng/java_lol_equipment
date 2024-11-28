@@ -1,10 +1,12 @@
 package com.peanut.Equipment.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.peanut.Equipment.common.LoginUserHolder;
 import com.peanut.Equipment.domain.dto.EquipmentDTO;
 import com.peanut.Equipment.domain.dto.EquipmentRecommendDTO;
 import com.peanut.Equipment.domain.dto.EquipmentRecommendPageDTO;
 import com.peanut.Equipment.domain.entity.EquipmentRecommend;
+import com.peanut.Equipment.domain.entity.User;
 import com.peanut.Equipment.domain.vo.*;
 import com.peanut.Equipment.service.EquipmentRecommendService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -54,6 +56,8 @@ public class equipmentRecommendController {
 	@Operation(summary = "根据id查询装备推荐")
 	@GetMapping("/{id}")
 	public ResultVO<EquipmentRecommendVO> find(@PathVariable Long id) {
+		User loginUser = LoginUserHolder.getLoginUser();
+		System.out.println(loginUser.getId());
 		EquipmentRecommend equipmentRecommend = equipmentRecommendService.getById(id);
 		EquipmentRecommendVO equipmentRecommendVO = new EquipmentRecommendVO();
 

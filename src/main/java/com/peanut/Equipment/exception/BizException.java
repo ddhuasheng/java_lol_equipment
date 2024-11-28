@@ -17,6 +17,14 @@ public class BizException extends RuntimeException{
         return bizException;
     }
 
+
+    public static BizException of(BizCodeEnum code, String message, String ...args) {
+        BizException bizException = new BizException();
+        bizException.setCode(code);
+        bizException.setMessage(message.formatted((Object) args));
+        return bizException;
+    }
+
     public static BizException of(String message) {
         BizException bizException = new BizException();
         bizException.setMessage(message);
