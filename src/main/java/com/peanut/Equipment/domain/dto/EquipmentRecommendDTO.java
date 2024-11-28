@@ -29,13 +29,13 @@ public class EquipmentRecommendDTO extends EquipmentRecommend {
 	 * 推荐类型 1-顺风出装 2-逆风出装
 	 */
 	@Schema(description = "推荐类型 1-顺风出装 2-逆风出装")
-	@NotBlank(message = "推荐类型不能为空")
+	@NotNull(message = "推荐类型不能为空")
 	private RecommendTypeEnum recommendType;
 
 	/**
 	 * 出装顺序 1-出门装 2-核心装 3-神装
 	 */
 	@Schema(description = "出装顺序 1-出门装 2-核心装 3-神装")
-	@NotBlank(message = "出装顺序不能为空")
+	@NotNull(message = "出装顺序不能为空")
 	private StageEnum stage;
 }
