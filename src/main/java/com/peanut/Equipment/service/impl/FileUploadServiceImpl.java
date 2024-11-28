@@ -62,9 +62,8 @@ public class FileUploadServiceImpl extends ServiceImpl<FileUploadMapper, FileUpl
         String mainName = FileUtil.mainName(name);
         String extName = FileUtil.extName(name);
         String filename = mainName + '_' + UUID.randomUUID() + "." + extName;
-        try {
+        try(BufferedInputStream inputStream = FileUtil.getInputStream(file)) {
             String type = Files.probeContentType(file.toPath());
-            BufferedInputStream inputStream = FileUtil.getInputStream(file);
             long size = FileUtil.size(file);
 
             minioUtil.uploadFile(inputStream, size, filename, type);
@@ -98,8 +97,7 @@ public class FileUploadServiceImpl extends ServiceImpl<FileUploadMapper, FileUpl
         // 返回文件名
         response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileUpload.getName()));
         // 获取输出流
-        try {
-            InputStream inputStream = minioUtil.download(fileUpload.getFilename());
+        try (InputStream inputStream = minioUtil.download(fileUpload.getFilename())){
 
             ServletOutputStream outputStream = response.getOutputStream();
             // 写入文件字节
@@ -107,7 +105,6 @@ public class FileUploadServiceImpl extends ServiceImpl<FileUploadMapper, FileUpl
         } catch (IOException e) {
             throw BizException.of("文件下载失败");
         }
-
     }
 
     @Override
