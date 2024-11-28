@@ -41,9 +41,9 @@ knife4j:
     enable-dynamic-parameter: true
     enable-swagger-models: true
 # 开启sql展示
-mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 minio:
   endpoint: http://192.168.98.128:9000/
   access-key: minioadmin
