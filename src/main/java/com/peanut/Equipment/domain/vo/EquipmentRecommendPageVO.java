@@ -31,4 +31,16 @@ public class EquipmentRecommendPageVO extends BaseVO {
 	 */
 	@Schema(description = "出装顺序 1-出门装 2-核心装 3-神装")
 	private StageEnum stage;
+
+	/*
+	 * 英雄名称
+	 * */
+	@Schema(description = "英雄名称")
+	private String heroName;
+
+	/*
+	 * 装备名称
+	 * */
+	@Schema(description = "装备名称")
+	private String equipmentName;
 }

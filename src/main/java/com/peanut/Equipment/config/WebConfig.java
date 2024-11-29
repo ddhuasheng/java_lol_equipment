@@ -15,6 +15,13 @@ public class WebConfig implements WebMvcConfigurer {
 		/*
 		 * 添加拦截器
 		 * */
-		registry.addInterceptor(authenticationInterceptor).addPathPatterns("/**").excludePathPatterns("/v1/user/**", "/doc.html/**", "/v3/api-docs/**");
+		registry.addInterceptor(authenticationInterceptor)
+				.addPathPatterns("/**")
+				.excludePathPatterns(
+						"/v1/user/**",
+						"/doc.html/**",
+						"/v3/api-docs/**",
+						"/webjars/**"
+				);
 	}
 }

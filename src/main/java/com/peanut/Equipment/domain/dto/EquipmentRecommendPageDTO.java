@@ -9,16 +9,16 @@ import lombok.Data;
 @Schema(description = "推荐装备分页DTO - EquipmentRecommendPageDTO")
 public class EquipmentRecommendPageDTO extends BasePageDTO {
 	/**
-	 * 英雄id
+	 * 英雄名称
 	 */
-	@Schema(description = "英雄id")
-	private Long heroId;
+	@Schema(description = "英雄名称")
+	private String heroName;
 
 	/**
-	 * 装备id
+	 * 装备名称
 	 */
-	@Schema(description = "装备id")
-	private Long equipmentId;
+	@Schema(description = "装备名称")
+	private String equipmentName;
 
 	/**
 	 * 推荐类型 1-顺风出装 2-逆风出装

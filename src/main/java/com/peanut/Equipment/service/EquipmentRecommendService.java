@@ -5,6 +5,7 @@ import com.peanut.Equipment.domain.entity.EquipmentRecommend;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.peanut.Equipment.domain.vo.BasePageVO;
 import com.peanut.Equipment.domain.vo.EquipmentRecommendPageVO;
+import com.peanut.Equipment.domain.vo.EquipmentRecommendRecordVO;
 
 /**
 * @author 86139
@@ -17,4 +18,9 @@ public interface EquipmentRecommendService extends IService<EquipmentRecommend> 
 	* 推荐装备分页
 	* */
 	BasePageVO<EquipmentRecommendPageVO> bizPage(EquipmentRecommendPageDTO equipmentRecommendPageDTO);
+
+	/*
+	* 根据id查询装备分页
+	* */
+	EquipmentRecommendRecordVO findById(Long id);
 }

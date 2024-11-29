@@ -46,9 +46,9 @@ public class GlobalExceptionHandler {
 	/*
 	* 处理未知异常
 	* */
-	@ExceptionHandler(value = Exception.class)
-	public ResultVO<String> exceptionHandler(Exception e) {
-		log.error(e.getMessage());
-		return ResultVO.fail(BizCodeEnum.UNKNOWN_ERROR , e.getMessage());
-	}
+//	@ExceptionHandler(value = Exception.class)
+//	public ResultVO<String> exceptionHandler(Exception e) {
+//		log.error(e.getMessage());
+//		return ResultVO.fail(BizCodeEnum.UNKNOWN_ERROR , e.getMessage());
+//	}
 }

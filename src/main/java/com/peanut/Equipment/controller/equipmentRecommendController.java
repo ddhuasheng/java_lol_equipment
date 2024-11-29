@@ -55,13 +55,9 @@ public class equipmentRecommendController {
 
 	@Operation(summary = "根据id查询装备推荐")
 	@GetMapping("/{id}")
-	public ResultVO<EquipmentRecommendVO> find(@PathVariable Long id) {
-		User loginUser = LoginUserHolder.getLoginUser();
-		System.out.println(loginUser.getId());
-		EquipmentRecommend equipmentRecommend = equipmentRecommendService.getById(id);
-		EquipmentRecommendVO equipmentRecommendVO = new EquipmentRecommendVO();
+	public ResultVO<EquipmentRecommendRecordVO> find(@PathVariable Long id) {
+		EquipmentRecommendRecordVO equipmentRecommend = equipmentRecommendService.findById(id);
 
-		BeanUtil.copyProperties(equipmentRecommend, equipmentRecommendVO);
-		return ResultVO.success(equipmentRecommendVO);
+		return ResultVO.success(equipmentRecommend);
 	}
 }

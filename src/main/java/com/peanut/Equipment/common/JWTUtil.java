@@ -17,7 +17,7 @@ import java.util.Date;
 * */
 @Slf4j
 public class JWTUtil {
-	private static final long tokenExpiration = 60 * 60 * 1000L;
+	private static final long tokenExpiration = 24 * 60 * 60 * 1000L;
 	private static final Key tokenSignKey = Keys.hmacShaKeyFor("coUV9oVaK2f6wugU6y5BhJVB3MPHIi9A".getBytes());
 
 	/**

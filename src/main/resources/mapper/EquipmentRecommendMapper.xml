@@ -21,4 +21,58 @@
         recommend_type,stage,version,
         delete_flag,create_time,update_time
     </sql>
+
+    <sql id="Base_Where">
+      <where>
+        <if test="param1.heroName != null">
+          lol_hero.hero_name like `%#{param1.heroName}%`
+        </if>
+        <if test="param1.equipmentName != null">
+          lol_equipment.equipment_name like `%#{param1.equipmentName}%`
+        </if>
+        <if test="param1.stage != null">
+          lol_equipment_recommend.stage = #{param1.stage}
+        </if>
+        <if test="param1.recommendType != null">
+          lol_equipment_recommend.recommend_type = #{param1.recommendType}
+        </if>
+      </where>
+    </sql>
+
+  <select id="findById" resultType="com.peanut.Equipment.domain.vo.EquipmentRecommendRecordVO">
+    select er.*, e.name as equipment_name, h.name as hero_name from `lol_equipment_recommend` as er
+        inner join `lol_equipment` as e on er.`equipment_id` = e.id
+        inner join `lol_hero` as h on er.`hero_id` = h.`id`
+        where er.`id` = #{id}
+  </select>
+
+  <!-- 获取分页 -->
+  <select id="page" resultType="com.peanut.Equipment.domain.vo.EquipmentRecommendPageVO">
+    select er.*, e.name as equipment_name, h.name as hero_name from `lol_equipment_recommend` as er
+        inner join `lol_equipment` as e on er.`equipment_id` = e.id
+        inner join `lol_hero` as h on er.`hero_id` = h.`id`
+        <include refid="Base_Where" />
+        limit #{offset}, #{param1.pageSize}
+  </select>
+
+  <!-- 获取总数 -->
+  <select id="count" parameterType="com.peanut.Equipment.domain.dto.EquipmentRecommendPageDTO" resultType="java.lang.Long">
+    select count(*) from `lol_equipment_recommend` as er
+      inner join `lol_equipment` as e on er.`equipment_id` = e.id
+      inner join `lol_hero` as h on er.`hero_id` = h.`id`
+    <where>
+      <if test="heroName != null">
+        lol_hero.hero_name like `%#{heroName}%`
+      </if>
+      <if test="equipmentName != null">
+        lol_equipment.equipment_name like `%#{equipmentName}%`
+      </if>
+      <if test="stage != null">
+        lol_equipment_recommend.stage = #{stage}
+      </if>
+      <if test="recommendType != null">
+        lol_equipment_recommend.recommend_type = #{recommendType}
+      </if>
+    </where>
+  </select>
 </mapper>
