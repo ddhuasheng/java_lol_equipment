@@ -49,3 +49,8 @@ minio:
   access-key: minioadmin
   secret-key: minioadmin
   bucket-name: "lol-equipment"
+logging:
+  pattern:
+    dateformat: YYYY-MM-dd hh:mm:ss.SSS # 设置log时间格式
+  file:
+    name: log/lol_equipment.log
