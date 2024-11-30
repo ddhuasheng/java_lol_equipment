@@ -4,14 +4,16 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 英雄表
  * @TableName lol_hero
  */
-@Schema(description = "英雄实体表 - Hero")
-@TableName(value ="lol_hero")
 @Data
+@EqualsAndHashCode(callSuper = true)
+@TableName(value ="lol_hero")
+@Schema(description = "英雄实体表 - Hero")
 public class Hero extends BaseEntity {
     /**
      * 英雄名

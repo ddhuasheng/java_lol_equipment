@@ -2,10 +2,12 @@ package com.peanut.Equipment.domain.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 
-@Schema(description = "英雄技能分页VO - HeroPageVO")
 @Data
+@EqualsAndHashCode(callSuper = true)
+@Schema(description = "英雄技能分页VO - HeroPageVO")
 public class HeroSkillPageVO extends BaseVO {
 	/*
 	 * 英雄技能名

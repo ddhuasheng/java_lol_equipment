@@ -6,14 +6,16 @@ import com.peanut.Equipment.enums.RecommendTypeEnum;
 import com.peanut.Equipment.enums.StageEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 出装推荐表
  * @TableName lol_equipment_recommend
  */
-@Schema(description = "出装推荐表 - EquipmentRecommend")
-@TableName(value ="lol_equipment_recommend")
 @Data
+@EqualsAndHashCode(callSuper = true)
+@TableName(value ="lol_equipment_recommend")
+@Schema(description = "出装推荐表 - EquipmentRecommend")
 public class EquipmentRecommend extends BaseEntity {
     /**
      * 英雄id

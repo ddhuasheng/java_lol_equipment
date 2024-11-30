@@ -2,8 +2,10 @@ package com.peanut.Equipment.domain.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Schema(description = "装备VO - EquipmentVO")
 public class EquipmentVO extends BaseVO {
 	/**

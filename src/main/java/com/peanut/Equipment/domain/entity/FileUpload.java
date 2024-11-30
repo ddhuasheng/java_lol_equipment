@@ -4,14 +4,16 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 文件上传表
  * @TableName lol_file_upload
  */
-@Schema(description = "文件上传实体类 - FileUpload")
-@TableName(value ="lol_file_upload")
 @Data
+@EqualsAndHashCode(callSuper = true)
+@TableName(value ="lol_file_upload")
+@Schema(description = "文件上传实体类 - FileUpload")
 public class FileUpload extends BaseEntity {
     /**
      * 文件名

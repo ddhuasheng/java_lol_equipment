@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 /*
 * 基础字段
 * */
-@Schema(description = "基础实体字段 - BaseEntity")
 @Data
+@Schema(description = "基础实体字段 - BaseEntity")
 public class BaseEntity implements Serializable {
     /**
      * id

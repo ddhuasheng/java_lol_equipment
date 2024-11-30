@@ -4,8 +4,8 @@ import com.peanut.Equipment.enums.BizCodeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "通用返回vo类 - ResultVO")
 @Data
+@Schema(description = "通用返回vo类 - ResultVO")
 public class ResultVO<T> {
     @Schema(description = "操作是否成功")
     private Boolean success;

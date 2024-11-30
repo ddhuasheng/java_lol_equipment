@@ -4,8 +4,10 @@ import com.peanut.Equipment.enums.RecommendTypeEnum;
 import com.peanut.Equipment.enums.StageEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Schema(description = "推荐装备分页DTO - EquipmentRecommendPageDTO")
 public class EquipmentRecommendPageDTO extends BasePageDTO {
 	/**

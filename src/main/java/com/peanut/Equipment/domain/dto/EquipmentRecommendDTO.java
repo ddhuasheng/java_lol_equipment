@@ -7,8 +7,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Schema(description = "装备推荐信息DTO - EquipmentRecommendDTO")
 public class EquipmentRecommendDTO extends EquipmentRecommend {
 	/**

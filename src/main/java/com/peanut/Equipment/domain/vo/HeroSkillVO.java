@@ -3,8 +3,10 @@ package com.peanut.Equipment.domain.vo;
 import com.peanut.Equipment.domain.entity.HeroSkill;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Schema(description = "英雄技能VO - HeroSkillVO")
 public class HeroSkillVO extends HeroSkill {
 	/**

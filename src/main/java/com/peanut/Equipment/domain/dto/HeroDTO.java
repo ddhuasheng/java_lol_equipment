@@ -5,9 +5,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-@Schema(description = "英雄DTO - HeroDTO")
 @Data
+@EqualsAndHashCode(callSuper = true)
+@Schema(description = "英雄DTO - HeroDTO")
 public class HeroDTO extends Hero {
 	/**
 	 * 英雄名
