@@ -29,7 +29,7 @@ public class MinioUtil {
 	 * @param contentType 文件类型
 	 */
 	public void upload(MultipartFile file, String filename, String contentType) {
-		try {
+		try(InputStream inputStream = file.getInputStream()) {
 			MinioClient client = getClient();
 			client.putObject(
 					PutObjectArgs
@@ -37,7 +37,7 @@ public class MinioUtil {
 							.object(filename)
 							.contentType(contentType)
 							.bucket(minioProperties.getBucketName().trim())
-							.stream(file.getInputStream(), file.getSize(), -1)
+							.stream(inputStream, file.getSize(), -1)
 							.build()
 			);
 		} catch (Exception e) {
